@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ur" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HASSAN FF OFFICIAL - Linktree & Developer Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & Orbitron -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neonCyan: '#00f3ff',
+                        neonPurple: '#9d00ff',
+                        neonBlue: '#0066ff',
+                        darkBg: '#080810',
+                        glassBg: 'rgba(15, 18, 33, 0.75)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        cyber: ['Orbitron', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2.5s infinite alternate',
+                        'border-spin': 'borderSpin 4s linear infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 15px rgba(0, 243, 255, 0.3), 0 0 30px rgba(157, 0, 255, 0.2)' },
+                            '100%': { boxShadow: '0 0 30px rgba(0, 243, 255, 0.8), 0 0 50px rgba(157, 0, 255, 0.6)' }
+                        },
+                        borderSpin: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar and backdrop visual tweaks */
+        body {
+            background-color: #080810;
+            background-image: 
+                radial-gradient(at 15% 15%, rgba(0, 243, 255, 0.08) 0px, transparent 50%),
+                radial-gradient(at 85% 85%, rgba(157, 0, 255, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism custom styling */
+        .glass-card {
+            background: rgba(16, 20, 38, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card-hover {
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card-hover:hover {
+            transform: translateY(-5px) scale(1.015);
+            border-color: rgba(0, 243, 255, 0.4);
+            box-shadow: 0 12px 35px rgba(0, 243, 255, 0.25), 0 0 15px rgba(157, 0, 255, 0.2);
+        }
+
+        /* Neon Glowing text */
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.7), 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+
+        .neon-text-purple {
+            text-shadow: 0 0 10px rgba(157, 0, 255, 0.7), 0 0 20px rgba(157, 0, 255, 0.4);
+        }
+
+        /* Cyberpunk Card Border Animated Gradient */
+        .cyber-border-box {
+            position: relative;
+            background: linear-gradient(60deg, #00f3ff, #9d00ff, #0066ff);
+            background-size: 300% 300%;
+            animation: animatedGradient 5s ease infinite;
+            padding: 2px;
+            border-radius: 1rem;
+        }
+
+        @keyframes animatedGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Toast notification styling */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            transform: translateY(100px);
+            transition: all 0.4s ease-in-out;
+        }
+
+        #toast.show {
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-neonCyan selection:text-black">
+
+    <!-- Toast Notification Message Container -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-slate-900/90 text-cyan-400 border border-cyan-500/50 px-5 py-3.5 rounded-xl shadow-2xl backdrop-blur-md">
+        <i class="fa-solid fa-circle-check text-xl"></i>
+        <span id="toast-message" class="font-medium text-sm text-white">Copied to clipboard!</span>
+    </div>
+
+    <!-- INTRO SUBSCRIPTION GATE MODAL POP-UP -->
+    <div id="intro-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md transition-opacity duration-500">
+        <div class="relative w-full max-w-md bg-slate-900/90 border border-cyan-500/30 rounded-3xl p-6 md:p-8 shadow-2xl shadow-cyan-500/20 text-center animate-float">
+            
+            <!-- Channel Gate Logo Banner -->
+            <div class="relative w-28 h-28 mx-auto mb-5">
+                <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-400 to-purple-600 blur opacity-75 animate-pulse"></div>
+                <img src="https://i.ibb.co/21qmyHBJ/jawadmd.jpg" 
+                     onerror="this.src='https://placehold.co/150x150/090d16/00f3ff?text=HASSAN+FF'" 
+                     alt="Hassan Logo" 
+                     class="relative w-full h-full rounded-full object-cover border-2 border-cyan-400 shadow-xl">
+            </div>
+
+            <!-- Modal Title & Intro -->
+            <h2 class="font-cyber text-2xl font-black tracking-wider text-white mb-2">
+                JOIN MY CHANNELS <span class="text-cyan-400">🔥</span>
+            </h2>
+            <p class="text-xs md:text-sm text-slate-300 mb-6 leading-relaxed">
+                Website access karne se pehle hamary Telegram aur WhatsApp Channels ko lazmi follow / join karein!
+            </p>
+
+            <!-- Channels Buttons Stack -->
+            <div class="space-y-3 mb-6">
+                <!-- 1st Telegram Channel -->
+                <a href="https://t.me/hassan1updates" target="_blank" rel="noopener noreferrer" 
+                   class="flex items-center justify-between w-full px-4 py-3 bg-slate-800/80 hover:bg-sky-600/30 border border-sky-500/40 rounded-xl transition duration-300 group">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-brands fa-telegram text-sky-400 text-2xl group-hover:scale-110 transition"></i>
+                        <span class="font-semibold text-sm text-slate-100 group-hover:text-white">HASSAN UPDATES TG</span>
+                    </div>
+                    <span class="text-xs bg-sky-500/20 text-sky-300 px-2.5 py-1 rounded-lg border border-sky-500/30">Join</span>
+                </a>
+
+                <!-- 2nd WhatsApp Source Code Channel -->
+                <a href="https://whatsapp.com/channel/0029VbE1NH99Bb65S8oOnS47" target="_blank" rel="noopener noreferrer" 
+                   class="flex items-center justify-between w-full px-4 py-3 bg-slate-800/80 hover:bg-emerald-600/30 border border-emerald-500/40 rounded-xl transition duration-300 group">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-emerald-400 text-2xl group-hover:scale-110 transition"></i>
+                        <span class="font-semibold text-sm text-slate-100 group-hover:text-white">SOURCE CODE CHNL WA</span>
+                    </div>
+                    <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-lg border border-emerald-500/30">Follow</span>
+                </a>
+
+                <!-- 3rd WhatsApp Updates Channel -->
+                <a href="https://whatsapp.com/channel/0029VbDuHz8JJhzb8zf92C1H" target="_blank" rel="noopener noreferrer" 
+                   class="flex items-center justify-between w-full px-4 py-3 bg-slate-800/80 hover:bg-green-600/30 border border-green-500/40 rounded-xl transition duration-300 group">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-green-400 text-2xl group-hover:scale-110 transition"></i>
+                        <span class="font-semibold text-sm text-slate-100 group-hover:text-white">HASSAN UPDATES WA</span>
+                    </div>
+                    <span class="text-xs bg-green-500/20 text-green-300 px-2.5 py-1 rounded-lg border border-green-500/30">Follow</span>
+                </a>
+            </div>
+
+            <!-- Unlock / Continue Button -->
+            <button onclick="closeIntroModal()" 
+                    class="w-full py-3.5 px-6 font-cyber font-bold text-sm tracking-widest text-slate-900 bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-500 rounded-xl shadow-lg hover:shadow-cyan-500/50 hover:scale-[1.02] active:scale-95 transition-all duration-300 uppercase">
+                CONTINUE TO WEBSITE <i class="fa-solid fa-arrow-right-long ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN PORTFOLIO & LINKTREE WRAPPER -->
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+        
+        <!-- HEADER SECTION -->
+        <header class="text-center mb-10">
+            <!-- Profile Avatar with Animated Glow Ring -->
+            <div class="relative w-32 h-32 md:w-36 md:h-36 mx-auto mb-4">
+                <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-400 via-purple-600 to-pink-500 blur-lg opacity-80 animate-pulse"></div>
+                <img src="https://i.ibb.co/21qmyHBJ/jawadmd.jpg" 
+                     onerror="this.src='https://placehold.co/150x150/090d16/00f3ff?text=HASSAN+FF'" 
+                     alt="Hassan Profile" 
+                     class="relative w-full h-full rounded-full object-cover border-4 border-slate-900 shadow-2xl">
+                <span class="absolute bottom-1 right-2 w-6 h-6 bg-emerald-500 border-2 border-slate-900 rounded-full flex items-center justify-center text-[10px] text-black font-bold" title="Verified Creator">
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+
+            <!-- Title & Name -->
+            <h1 class="font-cyber text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-2">
+                HASSAN UMAIR <span class="text-cyan-400">/</span> <span class="text-purple-400">HASSAN FF</span>
+            </h1>
+            <p class="text-xs md:text-sm text-cyan-300 font-cyber font-medium uppercase tracking-widest mb-3">
+                Full-Stack Developer & Content Creator
+            </p>
+
+            <!-- Bio Description -->
+            <p class="text-slate-300 text-sm md:text-base max-w-xl mx-auto mb-6 leading-relaxed px-2">
+                Welcome to my official digital hub. Access all my social platforms, tools, hosted project links, and gaming IDs below.
+            </p>
+
+            <!-- DIRECT DEVELOPER CONTACT BUTTON (WhatsApp) -->
+            <div class="flex justify-center mb-8">
+                <a href="https://wa.me/923294675242" target="_blank" rel="noopener noreferrer" 
+                   class="relative group inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-slate-950 font-cyber font-bold text-sm tracking-wider shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/50 hover:scale-105 active:scale-95 transition-all duration-300">
+                    <i class="fa-brands fa-whatsapp text-2xl text-slate-950"></i>
+                    <span>CONTACT DEVELOPER DIRECTLY</span>
+                    <i class="fa-solid fa-paper-plane group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- SOCIAL MEDIA PLATFORMS SECTION -->
+        <section class="mb-12">
+            <h2 class="font-cyber text-lg md:text-xl font-bold text-slate-200 mb-5 flex items-center gap-3">
+                <i class="fa-solid fa-share-nodes text-cyan-400"></i>
+                <span>OFFICIAL SOCIAL MEDIA CHANNELS</span>
+                <span class="h-0.5 flex-1 bg-gradient-to-r from-cyan-500/40 to-transparent"></span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- YouTube Card -->
+                <a href="https://YouTube.com/@hassan-ff-1x2" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-4 rounded-2xl flex items-center gap-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition duration-300">
+                        <i class="fa-brands fa-youtube text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-cyber font-bold text-sm text-white group-hover:text-cyan-400 transition">HASSAN FF OFC YT</h3>
+                        <p class="text-xs text-slate-400">YouTube Channel</p>
+                    </div>
+                </a>
+
+                <!-- TikTok Card -->
+                <a href="https://TikTok.com/@maryo3211" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-4 rounded-2xl flex items-center gap-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-600/50 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-slate-950 transition duration-300">
+                        <i class="fa-brands fa-tiktok text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-cyber font-bold text-sm text-white group-hover:text-cyan-400 transition">HASSAN FF OFC TT</h3>
+                        <p class="text-xs text-slate-400">TikTok Account</p>
+                    </div>
+                </a>
+
+                <!-- Instagram Card -->
+                <a href="https://instagram.com/end_hassan_ff" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-4 rounded-2xl flex items-center gap-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-pink-600/20 border border-pink-500/40 flex items-center justify-center text-pink-400 group-hover:bg-gradient-to-tr group-hover:from-amber-500 group-hover:via-pink-500 group-hover:to-purple-600 group-hover:text-white transition duration-300">
+                        <i class="fa-brands fa-instagram text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-cyber font-bold text-sm text-white group-hover:text-cyan-400 transition">HASSAN FF OFC IG</h3>
+                        <p class="text-xs text-slate-400">Instagram Profile</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- HOSTED PROJECTS SECTION -->
+        <section class="mb-12">
+            <h2 class="font-cyber text-lg md:text-xl font-bold text-slate-200 mb-5 flex items-center gap-3">
+                <i class="fa-solid fa-code text-purple-400"></i>
+                <span>HOSTED PROJECTS & TOOLKITS</span>
+                <span class="h-0.5 flex-1 bg-gradient-to-r from-purple-500/40 to-transparent"></span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- Project 1: Hassan Hosting -->
+                <a href="https://hassan-host-top.vercel.app" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-5 rounded-2xl flex items-center justify-between group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-white group-hover:text-cyan-400 transition">HASSAN HOSTING</h3>
+                            <p class="text-xs text-slate-400">Vercel Web Server</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-cyan-400 transition"></i>
+                </a>
+
+                <!-- Project 2: Hassan Hosting 2 -->
+                <a href="https://hassan-host-free.vercel.app" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-5 rounded-2xl flex items-center justify-between group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-white group-hover:text-purple-400 transition">HASSAN HOSTING 2</h3>
+                            <p class="text-xs text-slate-400">Free Hosting Hub</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-purple-400 transition"></i>
+                </a>
+
+                <!-- Project 3: Hassan Main Toolkit -->
+                <a href="https://toolkit.page.gd/t/hassan-2nd-toolkit" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-5 rounded-2xl flex items-center justify-between group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                            <i class="fa-solid fa-toolbox"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-white group-hover:text-blue-400 transition">HASSAN MAIN TOOLKIT</h3>
+                            <p class="text-xs text-slate-400">Primary Utility Suite</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-blue-400 transition"></i>
+                </a>
+
+                <!-- Project 4: Hassan 2nd Toolkit -->
+                <a href="https://hassan-toolkit-pro.vercel.app" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-5 rounded-2xl flex items-center justify-between group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-white group-hover:text-amber-400 transition">HASSAN 2ND TOOLKIT</h3>
+                            <p class="text-xs text-slate-400">Toolkit Pro Version</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-amber-400 transition"></i>
+                </a>
+
+                <!-- Project 5: Appeal Generator -->
+                <a href="https://hassan-allplatform-appeal-genrator.vercel.app" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-5 rounded-2xl flex items-center justify-between group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                            <i class="fa-solid fa-file-contract"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-white group-hover:text-emerald-400 transition">ALL PLATFORM APPEAL GENERATOR</h3>
+                            <p class="text-xs text-slate-400">Automated Appeal Tool</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-emerald-400 transition"></i>
+                </a>
+
+                <!-- Project 6: TikTok Downloader -->
+                <a href="https://hassan-ttvd.vercel.app" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-5 rounded-2xl flex items-center justify-between group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-white group-hover:text-rose-400 transition">TIKTOK VIDEO DOWNLOADER</h3>
+                            <p class="text-xs text-slate-400">Fast Media Downloader</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-rose-400 transition"></i>
+                </a>
+
+                <!-- Project 7: Friend Afzaal Hosting -->
+                <a href="https://afzaal-free-host.vercel.app" target="_blank" rel="noopener noreferrer" 
+                   class="glass-card glass-card-hover p-5 rounded-2xl flex items-center justify-between group md:col-span-2">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-white group-hover:text-indigo-400 transition">FRIEND (AFZAAL) HOSTING WEBSITE</h3>
+                            <p class="text-xs text-slate-400">Partner Hosting Service</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-500 group-hover:text-indigo-400 transition"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- SPECIAL NEON GAMING UIDS SECTION (1-CLICK COPY) -->
+        <section class="mb-12">
+            <h2 class="font-cyber text-lg md:text-xl font-bold text-slate-200 mb-5 flex items-center gap-3">
+                <i class="fa-solid fa-gamepad text-cyan-400"></i>
+                <span>GAMING ACCOUNTS & UIDS</span>
+                <span class="h-0.5 flex-1 bg-gradient-to-r from-cyan-500/40 to-transparent"></span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- 1ST GAMING UID CARD -->
+                <div class="cyber-border-box">
+                    <div class="bg-slate-950 p-6 rounded-[0.9rem] flex flex-col justify-between h-full relative overflow-hidden group">
+                        <!-- Background Cyber Overlay Graphic -->
+                        <div class="absolute -right-6 -bottom-6 opacity-10 text-8xl text-cyan-400 select-none pointer-events-none group-hover:opacity-20 transition">
+                            <i class="fa-solid fa-crosshairs"></i>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-cyber bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full border border-cyan-500/30 font-semibold">
+                                PRIMARY GAMING ID
+                            </span>
+                            <i class="fa-solid fa-fire text-amber-400 animate-pulse"></i>
+                        </div>
+
+                        <!-- ID Player Name -->
+                        <div class="mb-4">
+                            <p class="text-xs text-slate-400 uppercase tracking-widest font-cyber">IGN (In Game Name)</p>
+                            <h3 class="font-cyber text-xl font-black text-white tracking-widest neon-text-cyan">
+                                H A S S A N
+                            </h3>
+                        </div>
+
+                        <!-- UID Box & Copy Action -->
+                        <div class="bg-slate-900/90 border border-slate-700/60 p-3 rounded-xl flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-cyber">PLAYER UID</p>
+                                <span id="uid-1" class="font-cyber font-bold text-cyan-300 text-base">6666156170</span>
+                            </div>
+                            <button onclick="copyToClipboard('6666156170', '1st UID (6666156170)')" 
+                                    class="px-3.5 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-cyber font-bold text-xs rounded-lg shadow-lg hover:shadow-cyan-500/50 active:scale-90 transition flex items-center gap-1.5">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>COPY</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2ND GAMING UID CARD (PLACEHOLDER FOR USER) -->
+                <div class="cyber-border-box">
+                    <div class="bg-slate-950 p-6 rounded-[0.9rem] flex flex-col justify-between h-full relative overflow-hidden group">
+                        <!-- Background Cyber Overlay Graphic -->
+                        <div class="absolute -right-6 -bottom-6 opacity-10 text-8xl text-purple-400 select-none pointer-events-none group-hover:opacity-20 transition">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-cyber bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full border border-purple-500/30 font-semibold">
+                                SECONDARY GAMING ID
+                            </span>
+                            <i class="fa-solid fa-bolt text-purple-400 animate-pulse"></i>
+                        </div>
+
+                        <!-- ID Player Name Placeholder -->
+                        <div class="mb-4">
+                            <p class="text-xs text-slate-400 uppercase tracking-widest font-cyber">IGN (In Game Name)</p>
+                            <h3 class="font-cyber text-xl font-black text-white tracking-widest neon-text-purple">
+                                [ Add after buying new id]
+                            </h3>
+                        </div>
+
+                        <!-- UID Box & Copy Action Placeholder -->
+                        <div class="bg-slate-900/90 border border-slate-700/60 p-3 rounded-xl flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-cyber">PLAYER UID</p>
+                                <span id="uid-2" class="font-cyber font-bold text-purple-300 text-base">After Buying New ID</span>
+                            </div>
+                            <button onclick="copyToClipboard('XX', '2nd UID Slot')" 
+                                    class="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-cyber font-bold text-xs rounded-lg shadow-lg hover:shadow-purple-500/50 active:scale-90 transition flex items-center gap-1.5">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>COPY</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/60 py-6 text-center text-xs text-slate-500">
+        <div class="container mx-auto px-4">
+            <p class="font-cyber tracking-widest mb-1 text-slate-400">
+                &copy; <span id="year"></span> HASSAN FF OFFICIAL. ALL RIGHTS RESERVED.
+            </p>
+            <p class="text-[11px] text-slate-600">
+                Crafted with Neon aesthetics & High performance code.
+            </p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT FUNCTIONS -->
+    <script>
+        // Set dynamic current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Close Intro Gate Modal Function
+        function closeIntroModal() {
+            const modal = document.getElementById('intro-modal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 500);
+        }
+
+        // Custom Toast Notification Handler
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+            
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 1-Click Clipboard Copy Function
+        function copyToClipboard(textToCopy, labelName) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showToast(`${labelName} copied successfully!`);
+                }).catch(err => {
+                    fallbackCopyTextToClipboard(textToCopy, labelName);
+                });
+            } else {
+                fallbackCopyTextToClipboard(textToCopy, labelName);
+            }
+        }
+
+        // Fallback Copy Function for browser compatibility
+        function fallbackCopyTextToClipboard(text, labelName) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if(successful) {
+                    showToast(`${labelName} copied!`);
+                } else {
+                    showToast("Failed to copy UID.");
+                }
+            } catch (err) {
+                showToast("Copy error occurred.");
+            }
+            document.body.removeChild(textArea);
+        }
+    </script>
+</body>
+</html>
